@@ -22,28 +22,47 @@ public class EventServiceImpl implements EventService {
     private EventRepo eventRepo;
 
     @Override
-    public Event save(Event event) {
+    public Event saveEvent(Event event) {
+        LOGGER.info("Saving event to Database: {}", event);
         return eventRepo.save(event);
     }
 
     @Override
-    public Boolean deleteById(Long id) throws EventNotFoundException{
-        Event event = findById(id);
+    public Boolean deleteEvent(Long id) throws EventNotFoundException{
+        Event event = findEvent(id);
+        LOGGER.info("Event retrieved with ID: {}, will be deleted.", id);
         eventRepo.delete(event);
+        LOGGER.info("Event with ID: {}, deleted successfully", id);
         return true;
     }
 
     @Override
-    public Event findById(Long id) throws EventNotFoundException{
+    public Event findEvent(Long id) throws EventNotFoundException{
         Optional<Event> eventOptional = eventRepo.findById(id);
+        LOGGER.info("Fetching event with ID: {}", id);
         if(eventOptional.isPresent()){
+            LOGGER.info("Found event with ID: {}", id);
             return eventOptional.get();
         }
         else throw new EventNotFoundException();
     }
 
     @Override
-    public List<Event> findAll() {
+    public List<Event> fetchAllEvents() {
+        LOGGER.info("Fetching all events.");
         return eventRepo.findAll();
+    }
+
+    @Override
+    public Event updateEvent(Long id, Event updatedEvent) throws EventNotFoundException {
+        LOGGER.info("Updating event of id: {} to {}", id, updatedEvent);
+        return eventRepo.findById(id).map(event -> {
+            event.setName(updatedEvent.getName());
+            event.setDescription(updatedEvent.getDescription());
+            event.setLocation(updatedEvent.getLocation());
+            event.setStartTime(updatedEvent.getStartTime());
+            event.setEndTime(updatedEvent.getEndTime());
+            return eventRepo.save(event);
+        }).orElseThrow(() -> new EventNotFoundException("Event not found with id " + id));
     }
 }

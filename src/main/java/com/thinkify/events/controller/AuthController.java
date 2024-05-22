@@ -32,8 +32,7 @@ public class AuthController {
         try {
             response = authService.authenticate(request);
         } catch (UserNotFoundException e) {
-            response = new BaseResponse();
-            response.setMessage("User not found");
+            response = new BaseResponse("User not found");
         }
         return ResponseEntity.ok(response);
     }

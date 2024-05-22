@@ -6,8 +6,9 @@ import com.thinkify.events.exception.EventNotFoundException;
 import java.util.List;
 
 public interface EventService {
-    Event save(Event event);
-    Boolean deleteById(Long id) throws EventNotFoundException;
-    Event findById(Long id) throws EventNotFoundException;
-    List<Event> findAll();
+    Event saveEvent(Event event);
+    Boolean deleteEvent(Long id) throws EventNotFoundException;
+    Event findEvent(Long id) throws EventNotFoundException;
+    List<Event> fetchAllEvents();
+    Event updateEvent(Long id, Event updatedEvent) throws EventNotFoundException;
 }

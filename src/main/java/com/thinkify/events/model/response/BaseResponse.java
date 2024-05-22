@@ -5,7 +5,14 @@ import lombok.Data;
 
 @Data
 public class BaseResponse {
-    int statusCode;
-    int errorCode;
+    Integer statusCode;
+    Integer errorCode;
     String message;
+
+    public BaseResponse(String message){
+        this.message = message;
+    }
+
+    public BaseResponse(){
+    }
 }
