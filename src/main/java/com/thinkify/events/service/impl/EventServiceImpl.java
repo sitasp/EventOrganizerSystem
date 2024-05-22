@@ -45,7 +45,7 @@ public class EventServiceImpl implements EventService {
             response.setMessage("SUCCESS");
             return response;
         }
-        else throw new EventNotFoundException();
+        else throw new EventNotFoundException("Event with id: " + id + " not found" );
     }
 
     @Override
@@ -56,7 +56,7 @@ public class EventServiceImpl implements EventService {
             LOGGER.info("Found event with ID: {}", id);
             return Mapper.convertToEventResponse(eventOptional.get());
         }
-        else throw new EventNotFoundException();
+        else throw new EventNotFoundException("Event with id: " + id + " not found" );
     }
 
     @Override
