@@ -1,6 +1,9 @@
 package com.thinkify.events.controller.openAPI;
 
 import com.thinkify.events.entity.Event;
+import com.thinkify.events.model.request.EventRequest;
+import com.thinkify.events.model.response.BaseResponse;
+import com.thinkify.events.model.response.EventResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -31,7 +34,7 @@ public interface EventAPIDocable {
     @Parameters({
             @Parameter(description = "Email for verification", required = true, in = ParameterIn.HEADER)
     })
-    ResponseEntity<List<Event>> getAllEvents();
+    ResponseEntity<List<EventResponse>> getAllEvents();
 
 
     @Operation(summary = "Get an event by ID", description = "Fetches an event by its ID")
@@ -42,7 +45,7 @@ public interface EventAPIDocable {
     @Parameters({
             @Parameter(description = "Email for verification", required = true, in = ParameterIn.HEADER)
     })
-    ResponseEntity<Event> getEvent(long eventId);
+    ResponseEntity<BaseResponse> getEvent(long eventId);
 
     @Operation(summary = "Create a new event", description = "Creates a new event and returns the created event")
     @ApiResponses(value = {
@@ -53,7 +56,7 @@ public interface EventAPIDocable {
     @Parameters({
             @Parameter(description = "Email for verification", required = true, in = ParameterIn.HEADER)
     })
-    ResponseEntity<Event> createEvent(Event event);
+    ResponseEntity<BaseResponse> createEvent(EventRequest eventRequest);
 
     @Operation(summary = "Update an event", description = "Updates an existing event with the provided details")
     @ApiResponses(value = {
@@ -64,7 +67,7 @@ public interface EventAPIDocable {
     @Parameters({
             @Parameter(description = "Email for verification", required = true, in = ParameterIn.HEADER)
     })
-    ResponseEntity<Event> updateEvent(long eventId, Event changed);
+    ResponseEntity<BaseResponse> updateEvent(long eventId, EventRequest changed);
 
     @Operation(summary = "Delete an event", description = "Deletes an event by its ID")
     @ApiResponses(value = {
@@ -75,5 +78,5 @@ public interface EventAPIDocable {
     @Parameters({
             @Parameter(description = "Email for verification", required = true, in = ParameterIn.HEADER)
     })
-    ResponseEntity<Boolean> deleteEvent(long eventId);
+    ResponseEntity<BaseResponse> deleteEvent(long eventId);
 }
