@@ -31,19 +31,13 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         LOGGER.info(String.format("Request received with path, %s", request.getRequestURI()));
-//        if(path.startsWith("/api/v1/auth")){
-//            filterChain.doFilter(request, response);
-//            return;
-//        }
         String authHeader = request.getHeader("Authorization");
         if(authHeader == null || (!authHeader.startsWith("Bearer "))) {
             filterChain.doFilter(request, response);
             return;
         }
         String jwt = authHeader.substring(7);
-        LOGGER.info("jwt " + jwt);
         String userEmail = request.getHeader("email");
-        LOGGER.info("user email passed in header" + userEmail);
         if(SecurityContextHolder.getContext().getAuthentication() == null) {
             if(jwtService.isTokenValid(jwt, userEmail)) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
@@ -56,6 +50,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
+            else LOGGER.error("JWT token validation failed");
         }
         filterChain.doFilter(request, response);
     }
