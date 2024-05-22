@@ -58,12 +58,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             );
         } catch (AuthenticationException e) {
             LOGGER.error("Authentication failed for user: " + request.getEmail(), e);
-            throw new UserNotFoundException();
+            throw new UserNotFoundException("Authentication failed for user: " + request.getEmail());
         }
-        LOGGER.info("authentication request #2- " + request);
         User user = userRepo.getUserByEmail(request.getEmail());
         if(Objects.isNull(user))
-            throw new UserNotFoundException();
+            throw new UserNotFoundException("Authentication failed for user: " + request.getEmail());
 
         String jwtToken = jwtService.generateToken(new CustomUserDetails(user));
         return new AuthenticationResponse(jwtToken);
