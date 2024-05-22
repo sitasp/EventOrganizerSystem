@@ -71,7 +71,7 @@ public class JWTServiceImpl implements JWTService {
         return tokenExpired;
     }
 
-    private boolean isSubjectMatching(String subjectJwt, String subjectHeader){
+    public boolean isSubjectMatching(String subjectJwt, String subjectHeader){
         boolean subjectMatching = StringUtils.isNotBlank(subjectHeader)
                                         && StringUtils.isNotBlank(subjectJwt)
                                         && subjectJwt.equals(subjectHeader);
@@ -91,7 +91,7 @@ public class JWTServiceImpl implements JWTService {
                 .getBody();
     }
 
-    private Key getSigningKey() {
+    public Key getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
