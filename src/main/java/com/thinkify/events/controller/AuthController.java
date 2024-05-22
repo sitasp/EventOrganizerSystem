@@ -7,6 +7,7 @@ import com.thinkify.events.model.response.AuthenticationResponse;
 import com.thinkify.events.model.request.RegisterRequest;
 import com.thinkify.events.model.response.BaseResponse;
 import com.thinkify.events.service.AuthenticationService;
+import com.thinkify.events.utils.EOSConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,8 @@ public class AuthController implements AuthAPIDocable {
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
         AuthenticationResponse response = authService.register(request);
+        response.setStatusCode(HttpStatus.OK.value());
+        response.setMessage(EOSConstants.SUCCESS);
         return ResponseEntity.ok(response);
     }
 
@@ -34,6 +37,7 @@ public class AuthController implements AuthAPIDocable {
         try {
             response = authService.authenticate(request);
             response.setStatusCode(HttpStatus.OK.value());
+            response.setMessage(EOSConstants.SUCCESS);
         } catch (UserNotFoundException e) {
             response = new BaseResponse("User not found");
             response.setStatusCode(HttpStatus.BAD_REQUEST.value());
