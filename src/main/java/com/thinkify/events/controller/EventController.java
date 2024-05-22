@@ -1,5 +1,6 @@
 package com.thinkify.events.controller;
 
+import com.thinkify.events.controller.openAPI.EventAPIDocable;
 import com.thinkify.events.entity.Event;
 import com.thinkify.events.exception.EventNotFoundException;
 import com.thinkify.events.model.response.BaseResponse;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/events")
-public class EventController {
+public class EventController implements EventAPIDocable {
 
     private Logger LOGGER = LoggerFactory.getLogger(EventController.class);
 

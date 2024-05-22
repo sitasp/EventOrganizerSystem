@@ -2,6 +2,7 @@ package com.thinkify.events.config.impl;
 
 import com.thinkify.events.config.JWTService;
 import io.jsonwebtoken.*;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -71,8 +72,8 @@ public class JWTServiceImpl implements JWTService {
     }
 
     private boolean isSubjectMatching(String subjectJwt, String subjectHeader){
-        boolean subjectMatching = !subjectHeader.isBlank()
-                                        && !subjectJwt.isBlank()
+        boolean subjectMatching = StringUtils.isNotBlank(subjectHeader)
+                                        && StringUtils.isNotBlank(subjectJwt)
                                         && subjectJwt.equals(subjectHeader);
         LOGGER.info("subject matching - {}", subjectMatching);
         return subjectMatching;
